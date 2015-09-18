@@ -25,6 +25,9 @@ public:
     bool updateArticleSpool(vector<article> newArticles);
     bool deleteLeastScoreArticle(int n);
     void removeDumplicatedArticle(vector<article> &articles);
+    map<string, int>  getTermsFromMultiArticle(vector<article> articles);
+    void updateTermTable(map<string, int> termMap, int flushTime);
+    vector<article> getArticleOfMaxHeat(int size);
 };
 
 

@@ -27,6 +27,8 @@ public:
     void update(map<string, int> termNum, int flushTime);
     map<string, float> getTermHeat();
     term *getTermTable();
+
+
 };
 
 

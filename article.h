@@ -20,6 +20,7 @@ private:
     string url;
 
 public:
+    article();
     article(int article_id, int article_time, float article_heat, string title, string content, string url);
     article(int article_id, int article_time, string title, string content, string url, term *t);
     article *getArticle();

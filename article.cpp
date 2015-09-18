@@ -10,6 +10,9 @@
 
 using namespace std;
 
+article::article(){ }
+
+
 article::article(int article_id, int article_time, float article_heat, string title, string content, string url)
 {
     this->article_id = article_id;

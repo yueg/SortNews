@@ -2,60 +2,33 @@
 #include <string>
 #include <map>
 #include "./extractTerms/countWord.h"
+#include "article.h"
+#include "articleSpool.h"
+
 #define TERMSPATH "/home/yueg/innotree/SortNews/data/business.seg"
 
 using namespace std;
 
-typedef struct article
+
+int main()
 {
-    int article_id;
-    int article_time;
-    string title;
-    string content;
-    string url;
-    article(int a, int b, string c, string d, string e){article_id = a; article_time = b; title = c; content = d; url = e;}
-};
+    term *t = new term(TERMSPATH);
+//    map<string, float> termHeap = t->getTermHeat();
+//    for(map<string, float>::iterator iter = termHeap.begin(); iter != termHeap.end(); iter++)
+//    {
+//        cout << iter->first << "   " << iter->second << endl;
+//    }
+    cout << endl;
+    article *a = new article(10, (int)time(0), "O2OO2M", "O2OO2M", "www.baidu.com", t);
+    article *b = new article(5, (int)time(0), "O2O", "O2O", "www.baidu.com", t);
+    vector<article> as;
+    as.push_back(*a);
+    as.push_back(*b);
+    articleSpool *aSpool = new articleSpool(as, t);
+    vector<article> ret = aSpool->getArticleOfMaxHeat(1);
+    cout << ret[0].getArticleId() << endl;
+    cout << ret[0].getArticleContent() << endl;
+    cout << ret[0].getArticleHeat() << endl;
 
-static map<string, int> termSpool;
-
-map<string, int> getTermsFromNews(article a)
-{
-    map<string, int> ret = getTermsMapFromStr(TERMSPATH, a.title + a.content);
-    return ret;
-};
-
-void updateTermSpool(map<string, int> newTerms, map<string, int> &termSpool)
-{
-    map<string, int>::iterator it;
-    for(it = newTerms.begin(); it != newTerms.end(); it++)
-    {
-        map<string, int>::iterator iterFind = termSpool.find(it->first);
-        if(iterFind != termSpool.end())
-        {
-            iterFind->second += it->second;
-        }
-        else
-        {
-            termSpool.insert(make_pair(it->first, it->second));
-        }
-    }
-}
-
-int main() {
-    article a = {0, 0, "垂直电商", "O2O", ""};
-    map<string, int> termsMap = getTermsFromNews(a);
-    map<string, int>::iterator it = termsMap.begin();
-    for(; it != termsMap.end(); it++)
-    {
-        cout << it->first << "   ";
-        cout << it->second << endl;
-    }
-    updateTermSpool(termsMap, termSpool);
-    it = termSpool.begin();
-    for(; it != termSpool.end(); it++)
-    {
-        cout << it->first << "   ";
-        cout << it->second << endl;
-    }
     return 0;
 }

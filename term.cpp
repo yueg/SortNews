@@ -1,6 +1,7 @@
 //
 // Created by yueg on 9/17/15.
 //
+#include <iostream>
 #include <map>
 #include <string>
 #include <vector>
@@ -8,6 +9,7 @@
 #include <set>
 #include <time.h>
 #include "term.h"
+#include "string.h"
 
 using namespace std;
 
@@ -15,6 +17,7 @@ term::term()
 {
     this->createTime = (int)time(0);
     this->updateTime = this->createTime;
+    this->termHeat.clear();
 }
 
 term::term(set<string> terms)
@@ -25,7 +28,7 @@ term::term(set<string> terms)
         map<string, float>::iterator iterHeat = this->termHeat.find(*iter);
         if(iterHeat == termHeat.end())
         {
-            this->termHeat.insert(make_pair(*iter, 0));
+            this->termHeat.insert(make_pair(*iter, (float)0));
         }
     }
 this->createTime = (int)time(0);
@@ -44,6 +47,13 @@ term::term(string termFilePath)
         char *s = (char *)malloc(2048);
         while(fgets(s, 2048, fp))
         {
+            for(int i = 0; i < strlen(s); i++)
+            {
+                if(s[i] == '\n')
+                {
+                    s[i] = '\0';
+                }
+            }
             string t(s);
             map<string, float>::iterator iterHeat = this->termHeat.find(t);
             if(iterHeat == termHeat.end())
@@ -59,7 +69,11 @@ term::term(string termFilePath)
 void term::reductionByTime(int flushTime)
 {
     map<string, float>::iterator iter;
-    float ratio = (float)(flushTime - updateTime) / (float)(flushTime - updateTime);
+    if(flushTime - createTime == 0)
+    {
+        return;
+    }
+    float ratio = (float)1.0 - (float)(flushTime - updateTime) / (float)(flushTime - createTime);
     for(iter = this->termHeat.begin(); iter != this->termHeat.end(); iter++)
     {
         iter->second *= ratio;
@@ -72,8 +86,11 @@ void term::update(map<string, int> termNum, int flushTime){
     map<string, int>::iterator iter;
     for(iter = termNum.begin(); iter != termNum.end(); iter++)
     {
-        this->termHeat[iter->first] += (float)iter->second;
+        map<string, float>::iterator iterTemp = this->termHeat.find(iter->first);
+        if(iterTemp != this->termHeat.end())
+            iterTemp->second += (float)iter->second;
     }
+    this->updateTime = (int)time(0);
 }
 
 map<string, float> term::getTermHeat()
