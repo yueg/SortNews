@@ -2,15 +2,16 @@
 // Created by yueg on 9/18/15.
 //
 
-#include "heapUtil.h"
+#include "HeapUtil.h"
+using namespace std;
 
-heapUtil::heapUtil(map<int, float> m, int heapSize, bool type)
+HeapUtil::HeapUtil(map<int, float> m, int heapSize, bool type)
 {
     this->dataMap = m;
-    this->buildHeap(heapSize, type);
+    this->BuildHeap(heapSize, type);
 }
 
-void heapUtil::buildHeap(int n, bool type)
+void HeapUtil::BuildHeap(int n, bool type)
 {
     this->heap = new int(n);
     map<int, float>::iterator iter;
@@ -22,24 +23,24 @@ void heapUtil::buildHeap(int n, bool type)
     this->heapSize = i;
     for(int j = this->heapSize / 2; j >= 1; j--)
     {
-        this->adjustHeap(j, this->heapSize, type);
+        this->AdjustHeap(j, this->heapSize, type);
     }
     for(; iter != dataMap.end(); iter++)
     {
         if(type && this->heapSize > 0 && iter->second > dataMap[this->heap[0]])
         {
             this->heap[0] = iter->first;
-            this->adjustHeap(0, this->heapSize, type);
+            this->AdjustHeap(0, this->heapSize, type);
         }
         else if(!type && this->heapSize > 0 && iter->second < dataMap[this->heap[0]])
         {
             this->heap[0] = iter->first;
-            this->adjustHeap(0, this->heapSize, type);
+            this->AdjustHeap(0, this->heapSize, type);
         }
     }
 }
 
-void heapUtil::adjustHeap(int i, int size, bool type)
+void HeapUtil::AdjustHeap(int i, int size, bool type)
 {
     int lchild = 2 * i;
     int rchild = 2 * i + 1;
@@ -57,7 +58,7 @@ void heapUtil::adjustHeap(int i, int size, bool type)
         if(max != i)
         {
             swap(this->heap[i], this->heap[max]);
-            adjustHeap(max, size, type);
+            AdjustHeap(max, size, type);
         }
     }
     else if(i <= size / 2 && !type)
@@ -73,11 +74,11 @@ void heapUtil::adjustHeap(int i, int size, bool type)
         if(max != i)
         {
             swap(this->heap[i], this->heap[max]);
-            adjustHeap(max, size, type);
+            AdjustHeap(max, size, type);
         }
     }
 }
 
-int * heapUtil::getHeap(){return this->heap;}
+int * HeapUtil::GetHeap() const {return this->heap;}
 
-int heapUtil::getHeapSize() {return this->heapSize; }
+int HeapUtil::GetHeapSize() const {return this->heapSize; }

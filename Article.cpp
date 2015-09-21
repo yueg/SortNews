@@ -2,7 +2,7 @@
 // Created by yueg on 9/17/15.
 //
 
-#include "article.h"
+#include "Article.h"
 #include <string>
 #include <iterator>
 #include "./extractTerms/countWord.h"
@@ -10,10 +10,10 @@
 
 using namespace std;
 
-article::article(){ }
+Article::Article(){ }
 
 
-article::article(int article_id, int article_time, float article_heat, string title, string content, string url)
+Article::Article(int article_id, int article_time, float article_heat, string title, string content, string url)
 {
     this->article_id = article_id;
     this->article_time = article_time;
@@ -23,22 +23,22 @@ article::article(int article_id, int article_time, float article_heat, string ti
     this->url = url;
 }
 
-article::article(int article_id, int article_time, string title, string content, string url, term *t)
+Article::Article(int article_id, int article_time, string title, string content, string url, Term *t)
 {
     this->article_id = article_id;
     this->article_time = article_time;
     this->title = title;
     this->content = content;
     this->url = url;
-    map<string, int> termMap = this->getTermMap();
-    this->article_heat = this->computArticleHeat(t);
+    map<string, int> termMap = this->GetTermMap();
+    this->article_heat = this->ComputArticleHeat(t);
 }
 
-float article::computArticleHeat(term *t)
+float Article::ComputArticleHeat(Term *t)
 {
     map<string, int> termMap = getTermsMapFromStr(TERMSPATH, this->title + this->content);
     map<string, int>::iterator iter;
-    map<string, float> termHeat = t->getTermHeat();
+    map<string, float> termHeat = t->GetTermHeat();
     float ret = 0;
     for(iter = termMap.begin(); iter != termMap.end(); iter++)
     {
@@ -47,22 +47,22 @@ float article::computArticleHeat(term *t)
     return ret;
 }
 
-article * article::getArticle()
+Article * Article::GetArticle()
 {
     return this;
 }
 
-map<string, int> article::getTermMap()
+map<string, int> Article::GetTermMap() const
 {
     return getTermsMapFromStr(TERMSPATH, this->title + this->content);
 }
 
-int article::getArticleId() {return this->article_id; }
+int Article::GetArticleId() const {return this->article_id; }
 
-float article::getArticleHeat() {return this->article_heat; }
+float Article::GetArticleHeat() const {return this->article_heat; }
 
-string article::getArticleTitle() {return this->title; }
+string Article::GetArticleTitle() const {return this->title; }
 
-string article::getArticleContent() {return this->content; }
+string Article::GetArticleContent() const {return this->content; }
 
-void article::setArticleHeat(float heat) {this->article_heat = heat; }
+void Article::SetArticleHeat(float heat) {this->article_heat = heat; }

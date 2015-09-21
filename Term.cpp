@@ -8,19 +8,19 @@
 #include <iterator>
 #include <set>
 #include <time.h>
-#include "term.h"
+#include "Term.h"
 #include "string.h"
 
 using namespace std;
 
-term::term()
+Term::Term()
 {
     this->createTime = (int)time(0);
     this->updateTime = this->createTime;
     this->termHeat.clear();
 }
 
-term::term(set<string> terms)
+Term::Term(set<string> terms)
 {
     set<string>::iterator iter;
     for(iter = terms.begin(); iter != terms.end(); iter++)
@@ -35,7 +35,7 @@ this->createTime = (int)time(0);
 this->updateTime = this->createTime;
 }
 
-term::term(string termFilePath)
+Term::Term(string termFilePath)
 {
     FILE *fp = fopen(termFilePath.c_str(), "r");
     if(NULL==fp)
@@ -66,7 +66,7 @@ term::term(string termFilePath)
     this->updateTime = this->createTime;
 }
 
-void term::reductionByTime(int flushTime)
+void Term::ReductionByTime(int flushTime)
 {
     map<string, float>::iterator iter;
     if(flushTime - createTime == 0)
@@ -81,8 +81,8 @@ void term::reductionByTime(int flushTime)
     this->updateTime = flushTime;
 }
 
-void term::update(map<string, int> termNum, int flushTime){
-    reductionByTime(flushTime);
+void Term::Update(map<string, int> termNum, int flushTime){
+    ReductionByTime(flushTime);
     map<string, int>::iterator iter;
     for(iter = termNum.begin(); iter != termNum.end(); iter++)
     {
@@ -93,12 +93,12 @@ void term::update(map<string, int> termNum, int flushTime){
     this->updateTime = (int)time(0);
 }
 
-map<string, float> term::getTermHeat()
+map<string, float> Term::GetTermHeat() const
 {
     return this->termHeat;
 }
 
-term* term::getTermTable()
+Term* Term::GetTermTable()
 {
     return this;
 }
