@@ -6,6 +6,8 @@
 #include <string>
 #include <iterator>
 #include "./extractTerms/countWord.h"
+#include "term_spool.h"
+
 #define TERMSPATH "/home/yueg/innotree/SortNews/data/business.seg"
 
 using namespace std;
@@ -13,9 +15,8 @@ using namespace std;
 Article::Article(){ }
 
 
-Article::Article(__int64_t article_id, int article_time, float article_heat, string title, string content, string url)
+Article::Article(int article_time, float article_heat, string title, string content, string url)
 {
-    this->article_id = article_id;
     this->article_time = article_time;
     this->article_heat = article_heat;
     this->title = title;
@@ -23,36 +24,29 @@ Article::Article(__int64_t article_id, int article_time, float article_heat, str
     this->url = url;
 }
 
-Article::Article(__int64_t article_id, int article_time, string title, string content, string url, Term *t)
+Article::Article(int article_time, string title, string content, string url, TermSpool *t)
 {
-    this->article_id = article_id;
     this->article_time = article_time;
     this->title = title;
     this->content = content;
     this->url = url;
     map<string, int> termMap = this->GetTermMap();
-    this->article_heat = this->ComputArticleHeat(t);
+    this->ComputArticleHeat(t);
 }
 
-float Article::ComputArticleHeat(Term *t)
-{
-    map<string, int> termMap = getTermsMapFromStr(TERMSPATH, this->title + this->content);
-    map<string, int>::iterator iter;
-    map<string, float> termHeat = t->GetTermHeat();
-    float ret = 0;
-    for(iter = termMap.begin(); iter != termMap.end(); iter++)
-    {
-        ret += termHeat[iter->first] * (float)iter->second;
+void Article::ComputArticleHeat(TermSpool *termSpool) {
+    map<string, int> termMap = getTermsMapFromStr(TERMSPATH, this->title + this->title + this->title + this->content);
+    float articleHeat = 0;
+    for (map<string, int>::iterator iter = termMap.begin(); iter != termMap.end(); iter++) {
+        Term *term = termSpool->GetTermByWord(iter->first);
+        articleHeat += iter->second * term->GetTermHeat();
     }
-    return ret;
 }
 
 map<string, int> Article::GetTermMap() const
 {
     return getTermsMapFromStr(TERMSPATH, this->title + this->content);
 }
-
-__int64_t Article::GetArticleId() const {return this->article_id; }
 
 float Article::GetArticleHeat() const {return this->article_heat; }
 

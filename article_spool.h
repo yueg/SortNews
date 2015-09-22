@@ -7,34 +7,29 @@
 #include <vector>
 #include <map>
 #include "article.h"
-#include "term.h"
+#include "term_spool.h"
 #include "heap_util.h"
 
-using namespace std;
 
 class ArticleSpool
 {
-private:
-    map<int, Article> articleMap;
-    map<__int64_t, float> articleHeat;
-    int createTime;
-    int updateTime;
-    int spoolMax;
-    int spoolSize;
-    HeapUtil *heapUtil;
-    Term *termTable;
 public:
     ArticleSpool();
+    ~ArticleSpool();
+    void Push(const std::string &url, int pubtime, const std::string &title, const std::string &content);
     void AddArticleToSpool(const Article *article);
-    vector<Article> GetArticleOfMaxHeat(int size);
+    void GetArticleOfMaxHeat(int size, std::vector<Article *> out) const;
 
-    ArticleSpool(vector<Article> articleVec, Term *termTable);
-    void UpdateArticleSpool(vector<Article> newArticles);
-    bool DeleteLeastScoreArticle(int n);
-    void RemoveDumplicatedArticle(vector<Article> &articles);
-    void GetTermsFromMultiArticle(map<string, int> *termMap,vector<Article> articles) const;
-    void UpdateTermTable(map<string, int> termMap, int flushTime);
 
+private:
+
+  void UpdateTermTable(std::map<std::string, int> termMap, int flushTime);
+  int createTime;
+  int updateTime;
+  int spoolMax;
+  int spoolSize;
+  HeapUtil *heapUtil;
+  TermSpool *termTable;
 };
 
 

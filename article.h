@@ -6,12 +6,11 @@
 #define SORTNEWS_ARTICLE_H
 #include <string>
 #include <map>
-#include "term.h"
+#include "term_spool.h"
 
 class Article
 {
 private:
-    __int64_t article_id;
     int article_time;
     float article_heat;
     std::string title;
@@ -20,16 +19,14 @@ private:
 
 public:
     Article();
-    Article(__int64_t article_id, int article_time, float article_heat, std::string title, std::string content, std::string url);
-    Article(__int64_t article_id, int article_time, std::string title, std::string content, std::string url, Term *t);
+    Article(int article_time, float article_heat, std::string title, std::string content, std::string url);
+    Article(int article_time, std::string title, std::string content, std::string url, TermSpool *t);
     std::map<std::string, int> GetTermMap() const;
-    __int64_t GetArticleId() const;
-    float ComputArticleHeat(Term *t);
+    void ComputArticleHeat(TermSpool *t);
     std::string GetArticleTitle() const;
     std::string GetArticleContent() const;
     float GetArticleHeat() const;
     void SetArticleHeat(float heat);
-
 };
 
 
