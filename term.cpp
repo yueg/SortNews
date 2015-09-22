@@ -8,8 +8,9 @@
 #include <iterator>
 #include <set>
 #include <time.h>
-#include "Term.h"
-#include "string.h"
+#include <string.h>
+#include "term.h"
+
 
 using namespace std;
 
@@ -20,7 +21,7 @@ Term::Term()
     this->termHeat.clear();
 }
 
-Term::Term(set<string> terms)
+Term::Term(const set<string> &terms)
 {
     set<string>::iterator iter;
     for(iter = terms.begin(); iter != terms.end(); iter++)
@@ -35,7 +36,7 @@ this->createTime = (int)time(0);
 this->updateTime = this->createTime;
 }
 
-Term::Term(string termFilePath)
+Term::Term(const string &termFilePath)
 {
     FILE *fp = fopen(termFilePath.c_str(), "r");
     if(NULL==fp)
@@ -81,9 +82,9 @@ void Term::ReductionByTime(int flushTime)
     this->updateTime = flushTime;
 }
 
-void Term::Update(map<string, int> termNum, int flushTime){
+void Term::Update(const map<string, int> &termNum, int flushTime){
     ReductionByTime(flushTime);
-    map<string, int>::iterator iter;
+    map<string, int>::const_iterator iter;
     for(iter = termNum.begin(); iter != termNum.end(); iter++)
     {
         map<string, float>::iterator iterTemp = this->termHeat.find(iter->first);
@@ -98,7 +99,4 @@ map<string, float> Term::GetTermHeat() const
     return this->termHeat;
 }
 
-Term* Term::GetTermTable()
-{
-    return this;
-}
+

@@ -15,17 +15,17 @@ class Term
 {
 private:
     std::map<std::string, float> termHeat;
+    std::map<std::string, std::vector<int>> termCount;
     int createTime;
     int updateTime;
 
 public:
     Term();
-    Term(std::set<std::string> terms);
-    Term(std::string termFilePath);
+    Term(const std::set<std::string> &terms);
+    Term(const std::string &termFilePath);
     void ReductionByTime(int flushTime);
-    void Update(std::map<std::string, int> termNum, int flushTime);
+    void Update(const std::map<std::string, int> &termNum, int flushTime);
     std::map<std::string, float> GetTermHeat() const;
-    Term *GetTermTable();
 
 
 };

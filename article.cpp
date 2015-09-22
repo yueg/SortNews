@@ -2,7 +2,7 @@
 // Created by yueg on 9/17/15.
 //
 
-#include "Article.h"
+#include "article.h"
 #include <string>
 #include <iterator>
 #include "./extractTerms/countWord.h"
@@ -13,7 +13,7 @@ using namespace std;
 Article::Article(){ }
 
 
-Article::Article(int article_id, int article_time, float article_heat, string title, string content, string url)
+Article::Article(__int64_t article_id, int article_time, float article_heat, string title, string content, string url)
 {
     this->article_id = article_id;
     this->article_time = article_time;
@@ -23,7 +23,7 @@ Article::Article(int article_id, int article_time, float article_heat, string ti
     this->url = url;
 }
 
-Article::Article(int article_id, int article_time, string title, string content, string url, Term *t)
+Article::Article(__int64_t article_id, int article_time, string title, string content, string url, Term *t)
 {
     this->article_id = article_id;
     this->article_time = article_time;
@@ -47,17 +47,12 @@ float Article::ComputArticleHeat(Term *t)
     return ret;
 }
 
-Article * Article::GetArticle()
-{
-    return this;
-}
-
 map<string, int> Article::GetTermMap() const
 {
     return getTermsMapFromStr(TERMSPATH, this->title + this->content);
 }
 
-int Article::GetArticleId() const {return this->article_id; }
+__int64_t Article::GetArticleId() const {return this->article_id; }
 
 float Article::GetArticleHeat() const {return this->article_heat; }
 

@@ -2,8 +2,8 @@
 #include <string>
 #include <map>
 #include "./extractTerms/countWord.h"
-#include "Article.h"
-#include "ArticleSpool.h"
+#include "article.h"
+#include "article_spool.h"
 
 #define TERMSPATH "/home/yueg/innotree/SortNews/data/business.seg"
 
