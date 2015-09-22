@@ -32,7 +32,7 @@ public:
     void AdjustHeap(int i, int size, bool type);
 
     // 获取堆指针
-    std::vector<Article *> GetHeap() const;
+    void GetHeap(std::vector<Article *> &article) const;
 
     // 获取堆大小
     int GetHeapSize() const;

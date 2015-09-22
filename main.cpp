@@ -33,8 +33,13 @@ int main()
 
 
   ArticleSpool *articleSpool = new ArticleSpool();
-  articleSpool->Push();
-  articleSpool->GetArticleOfMaxHeat(12);
+  articleSpool->Push("123", 0, "O2O", "O2M");
+  articleSpool->Push("123", 0, "O2O", "O2M");
+  articleSpool->Push("123", 0, "O2O", "O2M");
+  articleSpool->Push("123", 0, "O2O", "O2M");
+  vector<Article> *ret = new vector<Article>;
+  articleSpool->GetArticleOfMaxHeat(3, ret);
+  cout << ret->size() << endl;
 
   return 0;
 }

@@ -14,7 +14,6 @@
 
 using namespace std;
 
-
 TermSpool::TermSpool(const string &termFilePath)
 {
     FILE *fp = fopen(termFilePath.c_str(), "r");
@@ -44,7 +43,7 @@ TermSpool::TermSpool(const string &termFilePath)
 }
 
 
-void TermSpool::UpdateTermCount(const map<string, int> &aticleTerm) {
+void TermSpool::UpdateTermCount(const map<string, int> &aticleTerm, int flushtime) {
     for (map<string, int>::const_iterator iter = aticleTerm.begin(); iter != aticleTerm.end(); iter++) {
         Term *term = termMap_[iter->first];
         term->UpdateTerm((int)time(0), iter->second);

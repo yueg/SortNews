@@ -2,8 +2,8 @@
 // Created by yueg on 9/17/15.
 //
 
-#ifndef SORTNEWS_TERMS_CLASS_H
-#define SORTNEWS_TERMS_CLASS_H
+#ifndef SORTNEWS_TERMSPOOL_CLASS_H
+#define SORTNEWS_TERMSPOOL_CLASS_H
 #include <map>
 #include <string>
 #include <vector>
@@ -11,7 +11,6 @@
 #include <set>
 #include <time.h>
 #include "term.h"
-#include "article.h"
 
 class TermSpool {
 private:
@@ -22,7 +21,7 @@ private:
 
 public:
     TermSpool(const std::string &termFilePath);
-    void UpdateTermCount(const std::map<std::string, int> &aticleTerm);
+    void UpdateTermCount(const std::map<std::string, int> &aticleTerm, int flushtime);
     Term *GetTermByWord(const std::string &word);
 };
 

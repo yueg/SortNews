@@ -18,8 +18,8 @@ bool HeapUtil::InsertIntoHeap(const Article *article, bool type) {
   float articleHeat = article->GetArticleHeat();
   if (this->heapSize == 0) {
     ret = true;
-    this->heap[0] = (Article *)article;
-    this->heapSize = 1;
+    this->heap.push_back((Article *)article);
+    this->heapSize = (int)this->heap.size();
   }
   else if (this->heapSize == this->heapMax && articleHeat > this->heap[0]->GetArticleHeat()) {
     ret = true;
@@ -29,8 +29,8 @@ bool HeapUtil::InsertIntoHeap(const Article *article, bool type) {
   else if (this->heapSize < this->heapMax) {
     ret = true;
     this->heapSize += 1;
-    this->heap[this->heapSize] = (Article *)article;
-    for (int i = this->heapSize / 2; i >= 0; i = (i - 1) / 2) {
+    this->heap.push_back((Article *)article);
+    for (int i = this->heapSize / 2; i >= 1; i = (i - 1) / 2) {
       this->AdjustHeap(i, this->heapSize, type);
     }
   }
@@ -42,10 +42,10 @@ void HeapUtil::BuildHeap(const vector<Article *> articleVec,int n, bool type) {
     int i;
     vector<Article *>::const_iterator iter;
     for(i = 0, iter = articleVec.begin(); i < n && iter != articleVec.end(); i++, iter++) {
-        this->heap[i] =  *iter;
+        this->heap.push_back(*iter);
     }
     this->heapSize = i;
-    for(int j = this->heapSize / 2; j >= 0; j--) {
+    for(int j = this->heapSize / 2; j >= 1; j--) {
         this->AdjustHeap(j, this->heapSize, type);
     }
     for(; iter != articleVec.end(); iter++) {
@@ -90,7 +90,7 @@ void HeapUtil::AdjustHeap(int i, int size, bool type) {
     }
 }
 
-vector<Article *> HeapUtil::GetHeap() const {return this->heap;}
+void HeapUtil::GetHeap(vector<Article *> &article) const { article = this->heap;}
 
 int HeapUtil::GetHeapSize() const {return this->heapSize; }
 

@@ -18,8 +18,6 @@ private:
     std::string url;
 
 public:
-    Article();
-    Article(int article_time, float article_heat, std::string title, std::string content, std::string url);
     Article(int article_time, std::string title, std::string content, std::string url, TermSpool *t);
     std::map<std::string, int> GetTermMap() const;
     void ComputArticleHeat(TermSpool *t);

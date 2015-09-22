@@ -13,8 +13,8 @@ public:
   ~Term();
   void UpdateTerm(int time, int count);
   void DeleteTerm();
-  void SetTermHeat(float heat);
   float GetTermHeat();
+  void UpdateHeat(int time);
 
 private:
   std::string word_;

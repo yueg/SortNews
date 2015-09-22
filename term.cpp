@@ -3,6 +3,7 @@
 //
 
 #include "term.h"
+#include <algorithm>
 
 Term::Term(std::string word) {
   word_ = word;
@@ -17,6 +18,7 @@ Term::~Term() { }
 void Term::UpdateTerm(int time, int count) {
   count_.push_back(count);
   timeStamp_.push_back(time);
+  UpdateHeat(time);
 }
 
 void Term::DeleteTerm() {
@@ -28,10 +30,18 @@ void Term::DeleteTerm() {
   }
 }
 
-void Term::SetTermHeat(float heat) {
-  heat_ = heat;
-}
-
 float Term::GetTermHeat() {
   return heat_;
+}
+
+void Term::UpdateHeat(int time){
+  float heat = 0;
+  for (int i = (int)count_.size() - 1; i >= 0; i--) {
+    int min = (time - timeStamp_[i]) / 60;
+    if (min > 360) {
+      break;
+    }
+    heat += count_[i] / sqrt(min + 1);
+  }
+  heat_ = heat;
 }

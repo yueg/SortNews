@@ -5,6 +5,8 @@
 #include <iostream>
 #include "article.h"
 #include "heap_util.h"
+#include "extractTerms/countWord.h"
+
 using namespace std;
 
 #define MAXSIZE 1000
@@ -25,7 +27,10 @@ ArticleSpool::~ArticleSpool() {
 }
 
 void ArticleSpool::Push(const string &url, int pubtime, const string &title, const string &content) {
-    this->updateTime = (int)time(0);
+  this->updateTime = (int)time(0);
+  Article *article = new Article(pubtime, title, content, url, this->termTable);
+  map<string, int> termMap = getTermsMapFromStr(TERMSPATH, title + title + title + content);
+  this->heapUtil->InsertIntoHeap(article, true);
 }
 
 
@@ -38,19 +43,30 @@ void ArticleSpool::AddArticleToSpool(const Article *article) {
     this->spoolSize = this->heapUtil->GetHeapSize();
 }
 
-void ArticleSpool::GetArticleOfMaxHeat(int size, vector<Article *> out) const
+void ArticleSpool::GetArticleOfMaxHeat(int size, vector<Article> *out) const
 {
     HeapUtil *outHeap = new HeapUtil(size);
-    outHeap->BuildHeap(this->heapUtil->GetHeap(), size, true);
-    int heapSize = outHeap->GetHeapSize();
-    out.clear();
-    out = outHeap->GetHeap();
+    vector<Article *> outArticleAddr;
+    vector<Article *> articleHeap;
+    this->heapUtil->GetHeap(articleHeap);
+    if (articleHeap.size() < size) {
+      outArticleAddr = articleHeap;
+    }
+    else {
+      outHeap->BuildHeap(articleHeap, size, true);
+      int heapSize = outHeap->GetHeapSize();
+      out->clear();
+      outHeap->GetHeap(outArticleAddr);
+    }
+    for (int i = 0; i < outArticleAddr.size(); i++) {
+      Article temp = *(outArticleAddr[i]);
+      out->push_back(temp);
+    }
     delete outHeap;
 }
 
 
-void ArticleSpool::UpdateTermTable(map<string, int> termMap, int flushTime)
-{
-
+void ArticleSpool::UpdateTermTable(map<string, int> termMap, int flushTime) {
+  this->termTable->UpdateTermCount(termMap, flushTime);
 }
 

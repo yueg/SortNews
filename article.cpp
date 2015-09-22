@@ -3,6 +3,7 @@
 //
 
 #include "article.h"
+#include <iostream>
 #include <string>
 #include <iterator>
 #include "./extractTerms/countWord.h"
@@ -12,35 +13,25 @@
 
 using namespace std;
 
-Article::Article(){ }
-
-
-Article::Article(int article_time, float article_heat, string title, string content, string url)
-{
-    this->article_time = article_time;
-    this->article_heat = article_heat;
-    this->title = title;
-    this->content = content;
-    this->url = url;
-}
-
-Article::Article(int article_time, string title, string content, string url, TermSpool *t)
+Article::Article(int article_time, string title, string content, string url, TermSpool *termSpool)
 {
     this->article_time = article_time;
     this->title = title;
     this->content = content;
     this->url = url;
     map<string, int> termMap = this->GetTermMap();
-    this->ComputArticleHeat(t);
+    this->ComputArticleHeat((TermSpool *)termSpool);
 }
 
 void Article::ComputArticleHeat(TermSpool *termSpool) {
     map<string, int> termMap = getTermsMapFromStr(TERMSPATH, this->title + this->title + this->title + this->content);
+    termSpool->UpdateTermCount(termMap, this->article_time);
     float articleHeat = 0;
     for (map<string, int>::iterator iter = termMap.begin(); iter != termMap.end(); iter++) {
         Term *term = termSpool->GetTermByWord(iter->first);
         articleHeat += iter->second * term->GetTermHeat();
     }
+    this->article_heat = articleHeat;
 }
 
 map<string, int> Article::GetTermMap() const

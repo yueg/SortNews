@@ -18,7 +18,7 @@ public:
     ~ArticleSpool();
     void Push(const std::string &url, int pubtime, const std::string &title, const std::string &content);
     void AddArticleToSpool(const Article *article);
-    void GetArticleOfMaxHeat(int size, std::vector<Article *> out) const;
+    void GetArticleOfMaxHeat(int size, std::vector<Article> *out) const;
 
 
 private:
