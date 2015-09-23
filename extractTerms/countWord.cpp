@@ -6,6 +6,8 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <stdio.h>
+#include <stdlib.h>
 #include "countWord.h"
 #include "tl_codetbl.h"
 #include "Utility.h"
@@ -91,7 +93,7 @@ map<string, int> getTermsMapFromStr(const char *termsTableFileName, string str) 
 /**
  * 获得每个term出现的新闻次数
  */
-map<string, int> getMultiTermsMap(vector<vector<string>> ts) {
+map<string, int> getMultiTermsMap(vector<vector<string> > ts) {
     map<string, int> ret;
     for(int i = 0; i < ts.size(); i++) {
         map<string, int> mapTemp;

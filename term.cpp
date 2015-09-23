@@ -3,9 +3,9 @@
 //
 
 #include "term.h"
-#include <algorithm>
+#include <math.h>
 
-Term::Term(std::string word) {
+Term::Term(const std::string &word) {
   word_ = word;
   heat_ = 0;
   createTime_ = (int)time(0);
@@ -21,7 +21,7 @@ void Term::UpdateTerm(int time, int count) {
   UpdateHeat(time);
 }
 
-void Term::DeleteTerm() {
+void Term::DeleteTimeOutTerm() {
   int now = (int)time(0);
   int deleteTime = now / 60 - 360;
   for (int i = 0; timeStamp_[i] <= deleteTime && !timeStamp_.empty(); i++) {

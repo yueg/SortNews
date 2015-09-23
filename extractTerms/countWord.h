@@ -11,7 +11,7 @@ using namespace std;
 map<string, int> getTermsMapFromVec(vector<string> vec);
 vector<string> getTermsFromFile(const char *termsTableFileName, const char *inputFileName);
 vector<string> getTermsFromStr(const char *termsTableFileName, string str);
-map<string, int> getMultiTermsMap(vector<vector<string>> ts);
+map<string, int> getMultiTermsMap(vector<vector<string> > ts);
 map<string, int> getTermsMapFromStr(const char *termsTableFileName, string str);
 
 #endif //FINDWORD_COUNTWORD_H

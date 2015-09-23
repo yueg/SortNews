@@ -13,16 +13,17 @@
 #include "term.h"
 
 class TermSpool {
-private:
-    std::vector<Term *> termSpool_;
-    std::map<std::string, Term *> termMap_;
-    int createTime_;
-    int updateTime_;
+ public:
+  TermSpool(const std::string &termFilePath);
+  void UpdateTermCount(const std::map<std::string, int> &aticleTerm, int flushtime);
+  Term *GetTermByWord(const std::string &word);
+  void DeleteTimeOutTermInSpool();
 
-public:
-    TermSpool(const std::string &termFilePath);
-    void UpdateTermCount(const std::map<std::string, int> &aticleTerm, int flushtime);
-    Term *GetTermByWord(const std::string &word);
+ private:
+  std::vector<Term *> termSpool_;
+  std::map<std::string, Term *> termMap_;
+  int createTime_;
+  int updateTime_;
 };
 
 

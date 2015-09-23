@@ -3,8 +3,10 @@
 //
 
 #include "fileOperation.h"
+#include <stdio.h>
 #include <iostream>
 #include <string.h>
+#include <stdlib.h>
 #include "tl_codetbl.h"
 using namespace std;
 using namespace encoding;

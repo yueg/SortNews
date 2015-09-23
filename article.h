@@ -8,23 +8,22 @@
 #include <map>
 #include "term_spool.h"
 
-class Article
-{
-private:
-    int article_time;
-    float article_heat;
-    std::string title;
-    std::string content;
-    std::string url;
+class Article {
+ public:
+  Article(int article_time, const std::string &title, const std::string &content, const std::string &url, const TermSpool *t);
+  void GetTermMap(std::map<std::string, int> &ret) const;
+  void ComputArticleHeat(TermSpool *t);
+  void GetArticleTitle(std::string &title) const;
+  void GetArticleContent(std::string &content) const;
+  float GetArticleHeat() const;
+  void SetArticleHeat(float heat);
 
-public:
-    Article(int article_time, std::string title, std::string content, std::string url, TermSpool *t);
-    std::map<std::string, int> GetTermMap() const;
-    void ComputArticleHeat(TermSpool *t);
-    std::string GetArticleTitle() const;
-    std::string GetArticleContent() const;
-    float GetArticleHeat() const;
-    void SetArticleHeat(float heat);
+ private:
+  int article_time_;
+  float article_heat_;
+  std::string title_;
+  std::string content_;
+  std::string url_;
 };
 
 

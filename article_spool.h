@@ -13,23 +13,20 @@
 
 class ArticleSpool
 {
-public:
-    ArticleSpool();
-    ~ArticleSpool();
-    void Push(const std::string &url, int pubtime, const std::string &title, const std::string &content);
-    void AddArticleToSpool(const Article *article);
-    void GetArticleOfMaxHeat(int size, std::vector<Article> *out) const;
+ public:
+  ArticleSpool();
+  ~ArticleSpool();
+  void Push(const std::string &url, int pubtime, const std::string &title, const std::string &content);
+  void GetArticleOfMaxHeat(int size, std::vector<Article> *out) const;
+  void UpdateAllArticle();
 
-
-private:
-
-  void UpdateTermTable(std::map<std::string, int> termMap, int flushTime);
-  int createTime;
-  int updateTime;
-  int spoolMax;
-  int spoolSize;
-  HeapUtil *heapUtil;
-  TermSpool *termTable;
+ private:
+  int createTime_;
+  int updateTime_;
+  int spoolMax_;
+  int spoolSize_;
+  HeapUtil *heapUtil_;
+  TermSpool *termTable_;
 };
 
 

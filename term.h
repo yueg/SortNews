@@ -8,15 +8,15 @@
 #include <deque>
 
 class Term {
-public:
-  Term(std::string word);
+ public:
+  Term(const std::string &word);
   ~Term();
   void UpdateTerm(int time, int count);
-  void DeleteTerm();
+  void DeleteTimeOutTerm();
   float GetTermHeat();
   void UpdateHeat(int time);
 
-private:
+ private:
   std::string word_;
   std::deque<int> count_;
   std::deque<int> timeStamp_;
